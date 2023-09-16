@@ -53,7 +53,7 @@ export const DashboardPage = () => {
   if (buyer.role === "seller") return <div>Seller view unsupported</div>;
 
   return (
-    <div className="w-full min-h-screen space-y-12 p-10">
+    <div className="w-full min-h-screen space-y-12 p-2 md:p-10">
       {/* section 1: Title */}
       <div className="space-y-5 bg-green-50 p-9 rounded-md border border-black/5 shadow">
         <p className="text-24 font-bold ">Welcome {buyer?.username}!</p>
@@ -84,10 +84,10 @@ export const DashboardPage = () => {
       </div>
 
       {/* Section 3: Buy existing products */}
-      <div className="space-y-5 bg-green-50 p-9 rounded-md border border-black/5 shadow">
+      <div className="space-y-5 bg-green-50 p-4 md:p-9 rounded-md border border-black/5 shadow">
         <p className="text-20 font-bold "> Buy a product</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-x-2 lg:gap-x-8 gap-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-x-2 lg:gap-x-8 gap-y-4 place-items-center md:place-items-start">
           {productList.map((product) => (
             <ProductComponent
               key={product.id}
@@ -108,11 +108,11 @@ export const DashboardPage = () => {
       </div>
 
       {/* Section 4: History of purchased products */}
-      <div className="space-y-5 bg-green-50 p-9 rounded-md border border-black/5 shadow">
+      <div className="space-y-5 bg-green-50 p-4 md:p-9 rounded-md border border-black/5 shadow">
         <p className="text-20 font-bold ">
           Total Spent: {formatCents(totalPurchased)}
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-x-2 lg:gap-x-8 gap-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-x-2 lg:gap-x-8 gap-y-4 place-items-center md:place-items-start">
           {!Boolean(purchaseHistory.length) && (
             <p className="text-18">No purchases yet</p>
           )}
