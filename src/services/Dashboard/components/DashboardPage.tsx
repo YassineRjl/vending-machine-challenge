@@ -11,6 +11,7 @@ import ProductComponent from "./ProductComponent";
 import PurchaseHistoryComponent from "./PurchaseHistoryComponent";
 import { useNavigate } from "react-router-dom";
 import { VALID_COINS, formatCents, isLoggedIn } from "../../../utils";
+import { AxiosError } from "axios";
 
 export const DashboardPage = () => {
   const navigate = useNavigate();
@@ -20,23 +21,36 @@ export const DashboardPage = () => {
   const [purchaseHistory, setPurchaseHistory] = useState<Purchase[]>([]);
 
   const fetchUser = async () => {
-    const user = await getCurrentUser();
-    user && setBuyer(user);
+    try {
+      const user = await getCurrentUser();
+      user && setBuyer(user);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError)
+        alert((error.response?.data as { message: string })?.message);
+    }
   };
 
   const fetchProducts = async () => {
-    const products = await getAllProducts();
-    setProductList(products);
+    try {
+      const products = await getAllProducts();
+      setProductList(products);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError)
+        alert((error.response?.data as { message: string })?.message);
+    }
   };
 
   const fetchPurchaseHistory = async () => {
-    const purchases = await getAllPurchases();
-    setPurchaseHistory(purchases);
+    try {
+      const purchases = await getAllPurchases();
+      setPurchaseHistory(purchases);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError)
+        alert((error.response?.data as { message: string })?.message);
+    }
   };
 
   useEffect(() => {
-    if (!isLoggedIn()) return;
-
     fetchUser();
     fetchProducts();
     fetchPurchaseHistory();
