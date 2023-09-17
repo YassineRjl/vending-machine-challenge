@@ -1,4 +1,4 @@
-# Vending Machine UI
+# Basic UI for Vending Machine Backend
 
 ### General Notes:
 
