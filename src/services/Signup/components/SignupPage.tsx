@@ -34,7 +34,7 @@ export const SignupPage = () => {
       role: "buyer",
     })
       .then(() => {
-        navigate("/dashboard");
+        navigate("/login");
       })
       .catch((err: AxiosError) => {
         console.log(err);

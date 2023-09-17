@@ -2,12 +2,7 @@ import axios from "axios";
 import { User } from "../types";
 
 export const signup = async (user: Omit<User, "id" | "deposit">) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_BACKEND}/auth/signup`,
-    user
-  );
-  const token = response.data.token;
-  localStorage.setItem("token", token);
+  await axios.post(`${process.env.REACT_APP_BACKEND}/auth/signup`, user);
 };
 
 export const signin = async (user: Omit<User, "id" | "deposit" | "role">) => {
@@ -16,11 +11,12 @@ export const signin = async (user: Omit<User, "id" | "deposit" | "role">) => {
     user
   );
   const token = response.data.token;
-  localStorage.setItem("token", token);
+  token && localStorage.setItem("token", token);
 };
 
 export const getCurrentUser = async () => {
   const token = localStorage.getItem("token");
+  if (!token) return null;
   const response = await axios.get(`${process.env.REACT_APP_BACKEND}/user`, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -29,6 +25,7 @@ export const getCurrentUser = async () => {
 
 export const logout = async () => {
   const token = localStorage.getItem("token");
+  if (!token) return;
   await axios.post(
     `${process.env.REACT_APP_BACKEND}/auth/logout/all`,
     {},
@@ -41,6 +38,7 @@ export const logout = async () => {
 
 export const addBalance = async (deposit: number) => {
   const token = localStorage.getItem("token");
+  if (!token) return;
   const response = await axios.patch(
     `${process.env.REACT_APP_BACKEND}/user/deposit`,
     { deposit },
@@ -51,6 +49,7 @@ export const addBalance = async (deposit: number) => {
 
 export const purchaseProduct = async (productId: number, amount: number) => {
   const token = localStorage.getItem("token");
+  if (!token) return;
   const response = await axios.post(
     `${process.env.REACT_APP_BACKEND}/purchase`,
     { productId, amount },
@@ -60,7 +59,11 @@ export const purchaseProduct = async (productId: number, amount: number) => {
 };
 
 export const getAllProducts = async () => {
-  const response = await axios.get(`${process.env.REACT_APP_BACKEND}/product`);
+  const token = localStorage.getItem("token");
+  if (!token) return;
+  const response = await axios.get(`${process.env.REACT_APP_BACKEND}/product`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return response.data;
 };
 

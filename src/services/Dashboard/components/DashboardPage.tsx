@@ -21,7 +21,7 @@ export const DashboardPage = () => {
 
   const fetchUser = async () => {
     const user = await getCurrentUser();
-    setBuyer(user);
+    user && setBuyer(user);
   };
 
   const fetchProducts = async () => {
